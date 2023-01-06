@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MemoTask</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="client_id">1041346472233-8lhs8lskc0qc535eshqcr55u3tugiv57.apps.googleusercontent.com</string>
+</resources>
