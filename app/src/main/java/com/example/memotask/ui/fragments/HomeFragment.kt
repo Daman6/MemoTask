@@ -11,14 +11,12 @@ import com.example.memotask.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
-    private lateinit var email:String
-    private lateinit var name:String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            email = requireArguments().getString("EMAIL").toString()
-            name = requireArguments().getString("NAME").toString()
+
         }
     }
 
@@ -33,7 +31,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.text.text = email+"--"+name
 
 
     }

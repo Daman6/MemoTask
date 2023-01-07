@@ -53,6 +53,7 @@ class SendOtpFragment : Fragment() {
 
 
         binding.sendOtpBtn.setOnClickListener {
+            binding.progressCircular.visibility = View.VISIBLE
             if (viewModel.checkUserPhone()) {
                 Log.e("sjbdjbd","+"+binding.countryCodePicker.selectedCountryCode.toString() + viewModel._phoneNum.value.toString())
                 val options = PhoneAuthOptions.newBuilder(auth)
@@ -73,9 +74,12 @@ class SendOtpFragment : Fragment() {
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential).addOnCompleteListener{ task ->
                 if (task.isSuccessful) {
+                    binding.progressCircular.visibility = View.INVISIBLE
                     Toast.makeText(requireContext(), "Authentication Successful", Toast.LENGTH_SHORT).show()
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                        binding.progressCircular.visibility = View.INVISIBLE
+
                     }
                 }
             }
@@ -100,6 +104,7 @@ class SendOtpFragment : Fragment() {
             verificationId: String,
             token: PhoneAuthProvider.ForceResendingToken
         ) {
+            binding.progressCircular.visibility = View.INVISIBLE
             val bundle = Bundle()
             bundle.putString("OTP",verificationId)
             bundle.putString("NUMBER",viewModel._phoneNum.value.toString())

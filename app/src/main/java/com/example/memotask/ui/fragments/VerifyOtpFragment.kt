@@ -3,6 +3,7 @@ package com.example.memotask.ui.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -62,8 +63,10 @@ class VerifyOtpFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.verifyBtn.setOnClickListener {
+            binding.progressCircular.visibility = View.VISIBLE
 
             val typeOtp = binding.optET1.text.toString()+binding.optET2.text.toString()+binding.optET3.text.toString()+binding.optET4.text.toString()+binding.optET5.text.toString()+binding.optET6.text.toString()
+            Log.e("dsjdbn",OTP.toString()+"--"+typeOtp.toString())
             if (typeOtp.isNotEmpty()){
                 if (typeOtp.length == 6){
                     val credential:PhoneAuthCredential = PhoneAuthProvider.getCredential(
@@ -71,9 +74,11 @@ class VerifyOtpFragment : Fragment() {
                     )
                     signInWithPhoneAuthCredential(credential)
                 }else{
+                    binding.progressCircular.visibility = View.INVISIBLE
                     Toast.makeText(requireContext(), "Please Enter Correct OTP", Toast.LENGTH_SHORT).show()
                 }
             }else{
+                binding.progressCircular.visibility = View.INVISIBLE
                 Toast.makeText(requireContext(), "Please Enter OTP", Toast.LENGTH_SHORT).show()
             }
 
@@ -83,9 +88,13 @@ class VerifyOtpFragment : Fragment() {
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential).addOnCompleteListener{ task ->
             if (task.isSuccessful) {
-                    findNavController().navigate(R.id.action_verifyOtpFragment_to_homeFragment)
+                binding.progressCircular.visibility = View.INVISIBLE
+                findNavController().navigate(R.id.action_verifyOtpFragment_to_homeFragment)
             } else {
                 if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                    binding.progressCircular.visibility = View.INVISIBLE
+                    Toast.makeText(requireContext(), task.exception.toString(), Toast.LENGTH_SHORT).show()
+                    Log.e("sfs",task.exception.toString())
                 }
             }
         }
